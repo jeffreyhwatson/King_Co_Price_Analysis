@@ -34,3 +34,8 @@ def dropper(df, li, inplace=None):
         return df.drop(li, axis=1, inplace=True)
     else:
         return df.drop(li, axis=1)
+    
+def print_uniques(df, li):
+    """Prints number of unique values in columns from a list."""
+    for x in li:
+        print(f'{x}: ', len(df[x].unique()))    
