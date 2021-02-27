@@ -38,4 +38,7 @@ def dropper(df, li, inplace=None):
 def print_uniques(df, li):
     """Prints number of unique values in columns from a list."""
     for x in li:
-        print(f'{x}: ', len(df[x].unique()))    
+        print(f'{x}: ', len(df[x].unique()))
+def not_in(li1,li2):
+    """Returns list of values fron li1 that are not in li2"""
+    return [x for x in li1 if x not in li2]
