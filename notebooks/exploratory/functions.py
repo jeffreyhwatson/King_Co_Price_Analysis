@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def lookup(df, lu_type, lu_item=None):
     """
     Return a dataframe from 'df_look' with 'LUType' == lu_type
@@ -39,6 +42,49 @@ def print_uniques(df, li):
     """Prints number of unique values in columns from a list."""
     for x in li:
         print(f'{x}: ', len(df[x].unique()))
-def not_in(li1,li2):
-    """Returns list of values fron li1 that are not in li2"""
+
+def not_in(list1,list2):
+    """Returns list of values fron list1 that are not in list2"""
     return [x for x in li1 if x not in li2]
+    
+def log_interpret(results, position, percent):
+    """Prints change in target given a percent change in a logged predictor.
+    
+    Agrs:
+        results: An ols model object.
+        position: A list of log transformed predictors.
+        percent: A float in decimal form referring the to the percent change in the predictor.
+        """
+    for p in position:
+        print(round(results.params[p]*np.log(1+percent),2))
+        
+def log_all(results, position, percent):
+    """Prints % change in a logged target given a % change in logged predictor.
+    
+    Agrs:
+        results: An ols model object.
+        position: An list of log-transformed predictors.
+        percent: A float in decimal form referring the to the percent change in the predictor.
+        """
+    for p in position:
+        print(round((((1+percent)**results.params[p])-1)*100,4))
+        
+def log_target(results, position):
+    """Prints change in a logged target given a unit change in predictor.
+    
+    Agrs:
+        results: An ols model object.
+        position: An list of log transformed predictors.
+        """
+    for p in position:
+        print(round((np.exp(results.params[p])-1)*100, 4))
+        
+def logger(df, features):
+    """Logs values in columns and appends new logged columns to data frame.
+    
+    Args:
+        df: A data frame.
+        features: A list of columns.
+    """
+    for feature in features:
+        df[f'{feature}_log'] = np.log(df[feature])
