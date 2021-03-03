@@ -1,4 +1,19 @@
+import pandas as pd
 import numpy as np
+import scipy.stats as stats
+
+from sklearn import preprocessing
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import FunctionTransformer
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.stats.diagnostic import linear_rainbow, het_breuschpagan
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
 def lookup(df, lu_type, lu_item=None):
@@ -31,8 +46,8 @@ def dropper(df, li, inplace=None):
         li: A list of columns to be dropped.
         inplace: A Boolean.
     Returns:
-        A data frame with the selected columns dropped."""
-    
+        A data frame with the selected columns dropped.
+        """
     if inplace:
         return df.drop(li, axis=1, inplace=True)
     else:
@@ -53,7 +68,8 @@ def log_interpret(results, position, percent):
     Agrs:
         results: An ols model object.
         position: A list of log transformed predictors.
-        percent: A float in decimal form referring the to the percent change in the predictor.
+        percent: A float in decimal form indicating
+                 the percent change in the predictor.
         """
     for p in position:
         print(round(results.params[p]*np.log(1+percent),2))
@@ -64,7 +80,8 @@ def log_all(results, position, percent):
     Agrs:
         results: An ols model object.
         position: An list of log-transformed predictors.
-        percent: A float in decimal form referring the to the percent change in the predictor.
+        percent: A float in decimal form indicating
+                 the percent change in the predictor.
         """
     for p in position:
         print(round((((1+percent)**results.params[p])-1)*100,4))
@@ -88,3 +105,86 @@ def logger(df, features):
     """
     for feature in features:
         df[f'{feature}_log'] = np.log(df[feature])
+        
+def create_formula(target_name, df):
+    """Returns a formula string.
+    
+    Args:
+        target_name: A string containing the target feature.
+        df: A data frame.
+    Returns:
+        A string containing an ols model formula.
+        """
+    features = df.drop(target_name, axis=1).columns
+    features = "+".join(features)
+    return target_name + "~" + features
+
+def rainbow(model_results):
+    """Returns the statistic and p-value of a rainbow test.
+    
+    Agrs:
+        model_results: an ols model object.
+    Returns:
+        A printout containing the statistic and p-value of a rainbow test.
+    """
+    rainbow_statistic, rainbow_p_value = linear_rainbow(model_results)
+    print("Rainbow statistic:", rainbow_statistic)
+    print("Rainbow p-value:", rainbow_p_value)
+
+def error_plot(df, target, model_results):
+    """Returns an error plot visualization.
+    
+    Args:
+        df: A data frame.
+        target: A string containing the name of the target feature.
+        model_results: A ols model object.
+    Returns:
+        A visualization of the residuals vs predicted values.
+    """
+    y = df[target]
+    y_hat = model_results.predict()
+    fig, ax = plt.subplots(figsize=(10,5))
+    ax.set(xlabel='Predicted Sale Price',
+        ylabel='Residuals (Predicted-Actual Sale Price)')
+    ax.scatter(x=y_hat, y=y_hat-y, color="blue", alpha=0.2);
+    
+def bp_test(df, target, model_results):
+    """Returns the multiplier and p-value of a breusch-pagan test.
+    
+    Args:
+        df: A data frame.
+        target: A string containing the name of the target feature.
+        model_results: A ols model object
+    Returns:
+            A printout of the multiplier and p-value of aa breusch-pagan test.
+    """
+    cols = df.columns[1:]
+    y = df[target]
+    y_hat = model_results.predict()
+    lm, lm_p_value, fvalue, f_p_value = het_breuschpagan(y-y_hat, df[cols])
+    print('Lagrange Multiplier p-value:', lm_p_value)
+    print('F-statistic p-value:', f_p_value)
+
+def vif(df):
+    """Returns a data frame containing feature names and their VIF values.
+    
+    Agrs:
+        df: A data frame.
+    Returns:
+        A data frame containing feature names and their VIF values.
+    """
+    cols = df.columns[1:]
+    rows = df[cols].values
+    vif_df = pd.DataFrame()
+    vif_df["VIF"] = [variance_inflation_factor(rows, i) for i in range(len(cols))]
+    vif_df["feature"] = cols
+    return vif_df
+
+def one_hot(df, feature):
+    ohcoder = OneHotEncoder(drop='first')
+    ohcoder.fit(df[[feature]])
+    transformed = ohcoder.transform(df[[feature]])
+    return ohcoder, transformed
+
+
+    
