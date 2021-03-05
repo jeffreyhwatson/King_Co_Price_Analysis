@@ -232,3 +232,19 @@ def forward_selected(data, response):
     model = smf.ols(formula, data).fit()
     return model
     
+def cohen_d(group1, group2):
+
+    """
+    Computes Cohen's d.
+    Group 1 = pandas series or numpy array
+    Group 2 = pandas series of numpy array
+    """
+    
+    diff = group1.mean() - group2.mean()
+    n1 = len(group1)
+    n2 = len(group2)
+    var1 = group1.var(ddof=1)
+    var2 = group2.var(ddof=1)
+    pooled_var = ((n1-1) * var1 + (n2-1) * var2) / (n1 + n2 - 2)
+    d = diff / np.sqrt(pooled_var)
+    return d
