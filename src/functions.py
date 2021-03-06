@@ -234,8 +234,3 @@ def cohens_d(sample1, sample2):
     pooled_var = ((n1-1) * var1 + (n2-1) * var2) / (n1 + n2 - 2)
     d = diff / np.sqrt(pooled_var)
     return d
-
-def test_ys(df, target, results):
-    y = df[target]
-    y_hat = results.predict()
-    return y, y_hat
