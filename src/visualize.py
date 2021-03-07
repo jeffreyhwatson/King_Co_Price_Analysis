@@ -1,20 +1,8 @@
 import pandas as pd
 import numpy as np
-# import scipy.stats as stats
-
-# from sklearn import preprocessing
-# from sklearn.preprocessing import OneHotEncoder
-# from sklearn.preprocessing import FunctionTransformer
-
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-# import statsmodels.api as sm
-# import statsmodels.formula.api as smf
-# from statsmodels.formula.api import ols
-# from statsmodels.stats.diagnostic import linear_rainbow, het_breuschpagan
-# from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 def heat_map(corr):
     """Returns a heatmap of a correlation matrix
@@ -96,7 +84,7 @@ def elecbb(series1, series2):
         series1: A pandas series.
         series2: A pandas series.
         """
-    elecbb = pd.DataFrame({'type': ['Higher Performing','ElecBB & Floor-Wall'],\
+    elecbb = pd.DataFrame({'type': ['Higher Performing Types','ElecBB & Floor-Wall'],\
                                  'values': [series1.mean(), series2.mean()]})
     fig, ax=plt.subplots(figsize=(20,7))
     ax = sns.barplot(x='type', y='values', data=elecbb)
