@@ -59,3 +59,132 @@ def corr_area_price(df):
     # plt.savefig('corr_area_price',  bbox_inches ="tight",\
     #             pad_inches = .25, transparent = False)
     plt.show()
+    
+def strict_porches(series1, series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    porch_strict = pd.DataFrame({'type': ['Open', 'Enclosed'],\
+                                 'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=porch_strict)
+    ax.set_xlabel("Porch Type", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With Strictly Open Porches Have Higher Mean Sale Prices", size=30)
+    # plt.savefig('strict_porches',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show()
+    
+def heat_means(df):
+    """Returns a plot of the heat system sale price means. 
+    
+    Args:
+        df: A data frame.
+        """
+    sns.barplot(x='HeatNames', y='SalePrice', data=df, palette='winter_r')
+    plt.xticks(rotation=45, ha='right');
+
+def elecbb(series1, series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    elecbb = pd.DataFrame({'type': ['Higher Performing','ElecBB & Floor-Wall'],\
+                                 'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=elecbb)
+    ax.set_xlabel("Heating System Type", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With ElecBB & Floor-Wall Heat Have Lower Mean Sale Prices", size=30)
+    # plt.savefig('elecbb_floor',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show()
+
+def finished(series1,series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    finished = pd.DataFrame({'type': ['Unfinished', 'Finished'],\
+                             'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=finished)
+    ax.set_xlabel("Basement Type", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With Finished Basements Have Higher Mean Sale Prices", size=30)
+    # plt.savefig('finished',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show()
+    
+def ave_hi(series1,series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    av_vs_hi = pd.DataFrame({'type': ['Average', 'High'],\
+                             'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=av_vs_hi)
+    ax.set_xlabel("Basement Quality", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With High Quality Finished Basements Have Higher Mean Sale Prices", size=30)
+    # plt.savefig('av_vs_hi',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show()
+    
+def po_hi(series1,series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    po_vs_hi = pd.DataFrame({'type': ['Poor', 'High'],\
+                             'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=po_vs_hi)
+    ax.set_xlabel("Basement Quality", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With High Quality Finished Basements Have Higher Mean Sale Prices", size=30)
+    # plt.savefig('po_vs_hi',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show()
+    
+def po_ave(series1,series2):
+    """Returns a plot of the mean sale prices
+    
+    Args:
+        series1: A pandas series.
+        series2: A pandas series.
+        """
+    po_vs_ave = pd.DataFrame({'type': ['Poor', 'Average'],\
+                             'values': [series1.mean(), series2.mean()]})
+    fig, ax=plt.subplots(figsize=(20,7))
+    ax = sns.barplot(x='type', y='values', data=po_vs_ave)
+    ax.set_xlabel("Basement Quality", size=20)
+    ax.set_ylabel(" Average Sale Price", size=20)
+    ax.tick_params(axis="x", labelsize=30)
+    ax.tick_params(axis="y", labelsize=20)
+    ax.set_title("Homes With Average Quality Finished Basements Have Higher Mean Sale Prices", size=30)
+    # plt.savefig('po_vs_hi',  bbox_inches ="tight",\
+    #             pad_inches = .25, transparent = False)
+    plt.show() 
