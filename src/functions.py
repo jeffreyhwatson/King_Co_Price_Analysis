@@ -235,3 +235,29 @@ def cohens_d(sample1, sample2):
     d = diff / np.sqrt(pooled_var)
     return d
 
+def porches(df):
+    o = df[(df['SqFtOpenPorch']!=0)&\
+             (df['SqFtEnclosedPorch']==0)].SalePrice
+    e = df[(df['SqFtEnclosedPorch']!=0)&\
+             (df['SqFtOpenPorch']==0)].SalePrice
+    return (o,e)
+
+def heat_sys(df):
+    higher = df[(df.HeatSystem != 1)&(df.HeatSystem != 4)].SalePrice
+    lower = df[(df.HeatSystem == 1) | (df.HeatSystem == 4)].SalePrice
+    return (higher,lower)
+
+def finished(df):
+    # adding a numerical basement grade column
+    df['FinBasementGradeInt'] = df['FinBasementGrade'].astype(int)
+
+    finished = df[df['FinBasementGradeInt'] != 0].SalePrice
+    unfinished = df[df['FinBasementGradeInt'] == 0].SalePrice
+    
+    return (finished, unfinished)
+
+def ave_poor(df):
+    poor = df[(df['FinBasementGradeInt'] > 0)\
+                    &(df['FinBasementGradeInt']<4)].SalePrice
+    average = df[df['FinBasementGradeInt'] == 7].SalePrice
+    return (average, poor)

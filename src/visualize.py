@@ -84,7 +84,7 @@ def elecbb(series1, series2):
         series1: A pandas series.
         series2: A pandas series.
         """
-    elecbb = pd.DataFrame({'type': ['Higher Performing Types','ElecBB & Floor-Wall'],\
+    elecbb = pd.DataFrame({'type': ['Alternate Types','ElecBB & Floor-Wall'],\
                                  'values': [series1.mean(), series2.mean()]})
     fig, ax=plt.subplots(figsize=(20,7))
     ax = sns.barplot(x='type', y='values', data=elecbb)
@@ -104,7 +104,7 @@ def finished(series1,series2):
         series1: A pandas series.
         series2: A pandas series.
         """
-    finished = pd.DataFrame({'type': ['Unfinished', 'Finished'],\
+    finished = pd.DataFrame({'type': ['Finished', 'Uninished'],\
                              'values': [series1.mean(), series2.mean()]})
     fig, ax=plt.subplots(figsize=(20,7))
     ax = sns.barplot(x='type', y='values', data=finished)
@@ -164,7 +164,7 @@ def po_ave(series1,series2):
         series1: A pandas series.
         series2: A pandas series.
         """
-    po_vs_ave = pd.DataFrame({'type': ['Poor', 'Average'],\
+    po_vs_ave = pd.DataFrame({'type': ['Average','Poor'],\
                              'values': [series1.mean(), series2.mean()]})
     fig, ax=plt.subplots(figsize=(20,7))
     ax = sns.barplot(x='type', y='values', data=po_vs_ave)
