@@ -14,6 +14,8 @@ def heat_map(corr):
 
     fig1, ax1 = plt.subplots(figsize=(11, 9))
     sns.heatmap(corr, mask=mask, cmap='viridis');
+#     plt.savefig('heatmap',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
 
 def error_plot(df, target, model_results):
     """Returns an error plot visualization.
@@ -42,10 +44,10 @@ def corr_area_price(df):
     ax = sns.regplot(x='SqFtTotLiving', y='SalePrice', data=df, ci=None)
     ax.tick_params(labelsize=20) 
     ax.set_xlabel("")
-    ax.set_ylabel("Mean Sale Price", size=20) 
+    ax.set_ylabel("Sale Price", size=20) 
     ax.set_title( "Correlation Between Total Living Area & Sale Price", size=30)
-    # plt.savefig('corr_area_price',  bbox_inches ="tight",\
-    #             pad_inches = .25, transparent = False)
+#     plt.savefig('corr_area_price',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
     plt.show()
     
 def strict_porches(series1, series2):
@@ -64,8 +66,8 @@ def strict_porches(series1, series2):
     ax.tick_params(axis="x", labelsize=30)
     ax.tick_params(axis="y", labelsize=20)
     ax.set_title("Homes With Strictly Open Porches Have Higher Mean Sale Prices", size=30)
-    # plt.savefig('strict_porches',  bbox_inches ="tight",\
-    #             pad_inches = .25, transparent = False)
+#     plt.savefig('strict_porches',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
     plt.show()
     
 def heat_means(df):
@@ -93,8 +95,8 @@ def elecbb(series1, series2):
     ax.tick_params(axis="x", labelsize=30)
     ax.tick_params(axis="y", labelsize=20)
     ax.set_title("Homes With ElecBB & Floor-Wall Heat Have Lower Mean Sale Prices", size=30)
-    # plt.savefig('elecbb_floor',  bbox_inches ="tight",\
-    #             pad_inches = .25, transparent = False)
+#     plt.savefig('elecbb_floor',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
     plt.show()
 
 def finished(series1,series2):
@@ -113,8 +115,8 @@ def finished(series1,series2):
     ax.tick_params(axis="x", labelsize=30)
     ax.tick_params(axis="y", labelsize=20)
     ax.set_title("Homes With Finished Basements Have Higher Mean Sale Prices", size=30)
-    # plt.savefig('finished',  bbox_inches ="tight",\
-    #             pad_inches = .25, transparent = False)
+#     plt.savefig('finished',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
     plt.show()
     
 def ave_hi(series1,series2):
@@ -173,6 +175,6 @@ def po_ave(series1,series2):
     ax.tick_params(axis="x", labelsize=30)
     ax.tick_params(axis="y", labelsize=20)
     ax.set_title("Homes With Average Quality Finished Basements Have Higher Mean Sale Prices", size=30)
-    # plt.savefig('po_vs_hi',  bbox_inches ="tight",\
-    #             pad_inches = .25, transparent = False)
+#     plt.savefig('po_vs_hi',  bbox_inches ="tight",\
+#                 pad_inches = .25, transparent = False)
     plt.show() 

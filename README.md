@@ -7,21 +7,21 @@ This repository offers an analysis of factors that influence housing prices in K
 ### Repository Directory
 
 ```
-├── README.md        <-- Main README file explaining the project's business case,
-│                        methodology, and findings
+├── README.md        
+│                        
 │
-├── data             <-- Data in CSV format
-│   ├── processed    <-- Processed (combined, cleaned) data used for modeling
-│   └── raw          <-- Original (immutable) data dump
+├── data             
+│   ├── processed    
+│   └── raw          
 │
-├── notebooks        <-- Jupyter Notebooks for exploration and presentation
-│   ├── exploratory  <-- Unpolished exploratory data analysis (EDA) notebooks
-│   └── report       <-- Polished final notebook(s)
+├── notebooks        
+│   ├── exploratory  
+│   └── report       
 │
-├── references       <-- Data dictionaries, manuals, and project instructions
+├── references       
 │
-└── reports          <-- Generated analysis (including presentation.pdf)
-    └── figures      <-- Generated graphics and figures to be used in reporting
+└── reports          
+    └── figures      
 ```
 
 ### Quick Links
@@ -31,28 +31,92 @@ This repository offers an analysis of factors that influence housing prices in K
 
 ### Setup Instructions
 
-TODO: add setup instructions (e.g. the name of the Conda environment file)
+To setup the project environment, `cd` into the project folder and run `conda env create --file king_co.yml` in your terminal.
+
 
 ## Business Understanding
 
-TODO: add business understanding
+A client in King County, WA wants to advise homeowners on home improvement projects that will add to the sale value of their homes, based on data from the most recent full calendar year, 2019.
 
 ## Data Understanding
 
-TODO: add data understanding, including at least 3 high-quality visualizations
+Analysis was be based on the King County House Sales dataset from the King County Department of Assessments. The data  was presented as three raw csv files of property data and a fourth with information about the various administrative codes used in the other three. The property data was joined into a data frame, and some light cleaning, an initial model data set was formed that contained 16,323 rows.
+
+The continuous features were grouped together and a correlation matrix and heatmap plot were generated to find the features most correlated to the `SalePrice` target.
+
+![graph1](references/figures/heatmap.png)
+
+From the heatmap above we can see that `SqFtTotLiving`, `SqFt1stFloor`, `SqFt2ndFloor`, and `BathFullCount` are most correlated with `SalePrice`.
+
+After the four most correlated features were identified, a pairplot was generated to further investigate their correlation with the target and each other.
+
+![graph2](references/figures/pairplot.png)
+
+From the pairplot we can see the the four predictors are highly correlated with each other, and this was a concern taken into consideration during the design of the model.
+
+![graph2](references/figures/corr_area_price.png)
+
+Lastly, a plot was generated of `SalePrice` vs `SqFtTotLiving`, which was the most highly correlated of the continuous features (.61 correlation coefficient). We can see that it is indeed a strong linear relationship.
 
 ## Data Preparation
+#### Outliers:
 
-TODO: add data preparation (which can be quite brief, but make sure you explain any dropped records)
+After running a simple linear regression baseline model with `SalePrice` as the target and `SqFtTotLiving` as the predictor, a closer look was taken at the data in an attempt to improve performance. Outliers were found (mainly extremely high priced homes) in the `SalePrice` target and removed using the IQR fences method. 
+
+As the modeling process progressed, a price-per-square-foot feature was created and employed to find another set of ouliers (mainly homes with a very high price-per-square-foot values) in the data. These were also removed using the IQR fences method. This step resulted in a sizable increase in the coefficient of determination. 
+
+Lastly, a close look was taken at the residuals by adding predicted price and residual features and filtering the data by residuals. A subset of outliers (the group had a mean sale price almost \$470,000 higher than the the dataset as a whole) that had large under-predictions were identified and removed, which again incresed the coefficient of determination. Further analysis is needed to fully understand the characteristics of the homes in this subgroup and how they affect the model.
+
+#### Transformations
+Log-transforming the target and various predictors was attempted to varying degrees of success; However, better results were found by square-root scaling `SqFtTotLiving` predictor and leaving the other data un-scaled. 
+
+#### Features
+Features that could be the subjects of home improvement project were the focus during the modeling process with an eye toward developing actionable recommendations.
 
 ## Modeling
 
-TODO: add modeling.  What are the features of your final model?
+A baseline model established using simple linear regression with `SalePrice` as the target and `SqFtTotLiving` predictor. The model went through multiple iterations of different predictors and revisions to the data. The final model was implemented using a forward selection method and was run on a data set of 12,980 rows.
+
+The final model is based on the following predictors:
+#### Continuous Area Features:
+SqFtTotLiving_sqrt, SqFtDeck, SqFtEnclosedPorch, SqFtOpenPorch
+
+#### Categorical Heating System Features:
+Radiant, Hot Water, Gravity, Heat Pump, Floor Wall.
+
+The Electric Baseboard heat system feature was dropped during the encoding process and incoporated into the intercept term of the model.
 
 ## Evaluation
 
-TODO: add evaluation.  How well does your model meet the assumptions of linear regression?
+The coefficient of determination increased slightly from .371 in the baseline model to .375 in the final model. All p-values and confidence intervals for the intercept and coefficients were valid except for the `Floor-Wall` and `SqFtEnclosedPorch` categories. The Jarque_Bera p-value was small and indicated that heteroscadasticity was present in the residuals, but the residuals looked much better than in the baseline model. While the condition number was large, the Variance Inflation Factor values for the features show no multicollinearity. The model was an improvement over the baseline model.
+
+The modeling process has uncovered a few overall trends in the data that were used a basis for testing various client recommendations. All of the models have shown a positive correlation between the `SalePrice` target and `SqFtTotalLiving` predictor. The models have also shown that all other heating types have improved the `SalePrice` target relative to ElecBB heat. Lastly, the models have also shown that the `SqFtOpenPorch`, `SqFtEnclosedPorch`, and `SqFtFinBasement` features are all positively correlated with the target. Focusing on the heating system, porches, and basements makes sense for the project, because these are all features that can be changed or upgraded to increase the sale price of homes.
 
 ## Conclusion
 
-TODO: add conclusion.  How does your model answer the business question?
+# Recommendations for Home Improvements
+
+Given the information gleaned from the modeling process, in conjunction with statistical testing methods, three home improvement projects were found to correlate to higher home prices:
+* Convert enclosed porches to open porches, and do not enclose any currently open porches.
+* Upgrade Electric Baseboard & Floor-Wall heating systems to alternate heating types.
+* Upgrade basements up to a finished quality level of at least average.
+
+
+![graph4](references/figures/strict_porches.png)
+
+![graph5](references/figures/elecbb_floor.png)
+
+![graph6](references/figures/finished.png)
+
+![graph7](references/figures/po_vs_ave.png)
+
+## Recommendations Next Steps
+
+* Look into the set of mixed porches homes to see if the recommendation holds in those cases.
+* More exploration into the alternate heating systems to analyze the upgrade cost vs effect on sale price of homes between the different types of alternate heating systems.
+* Quanitify the characteristics that demarcate the various quality levels for finished basements.
+
+## Modeling Next Steps
+* More work on the filtered cluster of homes. Hopefully, some clarity can be gain on how they effect the model and steps can be taken to include them in the model, or quantify the effect of leaving them out. 
+* The final model is missing the `Forced Air` heating type. Moving forward, a next step in the process is to find a way to add it back in to the model without breaking the independence assuption of linear regression.
+* Adding more features to help improve the coefficient determination.
