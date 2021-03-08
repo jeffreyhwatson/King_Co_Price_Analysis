@@ -61,11 +61,11 @@ Lastly, a plot was generated of `SalePrice` vs `SqFtTotLiving`, which was the mo
 ## Data Preparation
 #### Outliers:
 
-After running a simple linear regression baseline model with `SalePrice` as the target and `SqFtTotLiving` as the predictor, a closer look was taken at the data in an attempt to improve performance. Outliers were found (mainly extremely high priced homes) in the `SalePrice` target and removed using the IQR fences method. 
+After running a simple linear regression baseline model with `SalePrice` as the target and `SqFtTotLiving` as the predictor, a closer look was taken at the data in an attempt to improve performance. Outliers were found (mainly extremely high priced homes) in the `SalePrice` target and removed using the IQR fences method. Helped the model get more in line the assumptions of linear regression.
 
-As the modeling process progressed, a price-per-square-foot feature was created and employed to find another set of ouliers (mainly homes with a very high price-per-square-foot values) in the data. These were also removed using the IQR fences method. This step resulted in a sizable increase in the coefficient of determination. 
+As the modeling process progressed, a price-per-square-foot feature was created and employed to find another set of ouliers (mainly homes with very high price-per-square-foot values) in the data. These were also removed using the IQR fences method. This step resulted in an increase in the coefficient of determination. 
 
-Lastly, a close look was taken at the residuals by adding predicted price and residual features and filtering the data by residuals. A subset of outliers (the group had a mean sale price almost \$470,000 higher than the the dataset as a whole) that had large under-predictions were identified and removed, which again incresed the coefficient of determination. Further analysis is needed to fully understand the characteristics of the homes in this subgroup and how they affect the model.
+Lastly, a close look was taken at the residuals by adding predicted price and residual features and filtering the data by residuals. A subset of outliers (the group had a mean sale price almost \$470,000 higher than the the dataset as a whole) that had large under-predictions were identified and removed, which again incresed the coefficient of determination and helped bring the residuals of the model more in line with the assumptions of linear regression. Further analysis is needed to fully understand the characteristics of the homes in this subgroup and how they affect the model.
 
 #### Transformations
 Log-transforming the target and various predictors was attempted to varying degrees of success; However, better results were found by square-root scaling `SqFtTotLiving` predictor and leaving the other data un-scaled. 
