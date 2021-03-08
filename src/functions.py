@@ -236,6 +236,11 @@ def cohens_d(sample1, sample2):
     return d
 
 def porches(df):
+    """Returns a tuple of series.
+    
+    Args:
+        df: a dataframe
+        """
     o = df[(df['SqFtOpenPorch']!=0)&\
              (df['SqFtEnclosedPorch']==0)].SalePrice
     e = df[(df['SqFtEnclosedPorch']!=0)&\
@@ -243,11 +248,21 @@ def porches(df):
     return (o,e)
 
 def heat_sys(df):
+    """Returns a tuple of series.
+    
+    Args:
+        df: a dataframe
+        """
     higher = df[(df.HeatSystem != 1)&(df.HeatSystem != 4)].SalePrice
     lower = df[(df.HeatSystem == 1) | (df.HeatSystem == 4)].SalePrice
     return (higher,lower)
 
 def finished(df):
+    """Returns a tuple of series.
+    
+    Args:
+        df: a dataframe
+        """
     # adding a numerical basement grade column
     df['FinBasementGradeInt'] = df['FinBasementGrade'].astype(int)
 
@@ -257,6 +272,11 @@ def finished(df):
     return (finished, unfinished)
 
 def ave_poor(df):
+    """Returns a tuple of series.
+    
+    Args:
+        df: a dataframe
+        """
     poor = df[(df['FinBasementGradeInt'] > 0)\
                     &(df['FinBasementGradeInt']<4)].SalePrice
     average = df[df['FinBasementGradeInt'] == 7].SalePrice

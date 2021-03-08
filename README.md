@@ -44,17 +44,17 @@ Analysis was be based on the King County House Sales dataset from the King Count
 
 The continuous features were grouped together and a correlation matrix and heatmap plot were generated to find the features most correlated to the `SalePrice` target.
 
-![graph1](references/figures/heatmap.png)
+![graph1](reports/figures/heatmap.png)
 
 From the heatmap above we can see that `SqFtTotLiving`, `SqFt1stFloor`, `SqFt2ndFloor`, and `BathFullCount` are most correlated with `SalePrice`.
 
 After the four most correlated features were identified, a pairplot was generated to further investigate their correlation with the target and each other.
 
-![graph2](references/figures/pairplot.png)
+![graph2](reports/figures/pairplot.png)
 
 From the pairplot we can see the the four predictors are highly correlated with each other, and this was a concern taken into consideration during the design of the model.
 
-![graph2](references/figures/corr_area_price.png)
+![graph2](reports/figures/corr_area_price.png)
 
 Lastly, a plot was generated of `SalePrice` vs `SqFtTotLiving`, which was the most highly correlated of the continuous features (.61 correlation coefficient). We can see that it is indeed a strong linear relationship.
 
@@ -102,13 +102,13 @@ Given the information gleaned from the modeling process, in conjunction with sta
 * Upgrade basements up to a finished quality level of at least average.
 
 
-![graph4](references/figures/strict_porches.png)
+![graph4](reports/figures/strict_porches.png)
 
-![graph5](references/figures/elecbb_floor.png)
+![graph5](reports/figures/elecbb_floor.png)
 
-![graph6](references/figures/finished.png)
+![graph6](reports/figures/finished.png)
 
-![graph7](references/figures/po_vs_ave.png)
+![graph7](reports/figures/po_vs_ave.png)
 
 ## Recommendations Next Steps
 
