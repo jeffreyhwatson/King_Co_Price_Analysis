@@ -61,17 +61,17 @@ Lastly, a plot was generated of `SalePrice` vs `SqFtTotLiving`, which was the mo
 ## Data Preparation
 #### Outliers:
 
-After running a simple linear regression baseline model with `SalePrice` as the target and `SqFtTotLiving` as the predictor, a closer look was taken at the data in an attempt to improve performance. Outliers were found (mainly extremely high priced homes) in the `SalePrice` target and removed using the IQR fences method. Helped the model get more in line the assumptions of linear regression.
+After running a simple linear regression baseline model with `SalePrice` as the target and `SqFtTotLiving` as the predictor, a closer look was taken at the data in an attempt to improve performance. Outliers were found (mainly extremely high priced homes) in the `SalePrice` target and removed using the IQR fences method. This refinement helped  to move the model more in line the assumptions of linear regression.
 
 As the modeling process progressed, a price-per-square-foot feature was created and employed to find another set of ouliers (mainly homes with very high price-per-square-foot values) in the data. These were also removed using the IQR fences method. This step resulted in an increase in the coefficient of determination. 
 
-Lastly, a close look was taken at the residuals by adding predicted price and residual features and filtering the data by residuals. A subset of outliers (the group had a mean sale price almost \$470,000 higher than the the dataset as a whole) that had large under-predictions were identified and removed, which again incresed the coefficient of determination and helped bring the residuals of the model more in line with the assumptions of linear regression. Further analysis is needed to fully understand the characteristics of the homes in this subgroup and how they affect the model.
+Lastly, a closer look was taken at the residuals by adding `y_hat` (predicted price) and `residual` (actual price - predicted price) features to the data frame and filtering the data by residuals. A subset of outliers (a group that had a mean sale price almost \$470,000 higher than the the dataset as a whole) that had large under-predictions were identified and removed, which again incresed the coefficient of determination and helped bring the residuals of the model more in line with the assumptions of linear regression. Further analysis is needed to fully understand the characteristics of the homes in this subgroup and how they affect the model.
 
 #### Transformations
 Log-transforming the target and various predictors was attempted to varying degrees of success; However, better results were found by square-root scaling `SqFtTotLiving` predictor and leaving the other data un-scaled. 
 
 #### Features
-Features that could be the subjects of home improvement project were the focus during the modeling process with an eye toward developing actionable recommendations.
+Features that could be the subjects of home improvement projects were the focus during the modeling process with an eye toward developing actionable recommendations.
 
 ## Modeling
 
@@ -88,16 +88,16 @@ The Electric Baseboard heat system feature was dropped during the encoding proce
 
 ## Evaluation
 
-The coefficient of determination increased slightly from .371 in the baseline model to .375 in the final model. All p-values and confidence intervals for the intercept and coefficients were valid except for the `Floor-Wall` and `SqFtEnclosedPorch` categories. The Jarque_Bera p-value was small and indicated that heteroscadasticity was present in the residuals, but the residuals looked much better than in the baseline model. While the condition number was large, the Variance Inflation Factor values for the features show no multicollinearity. The model was an improvement over the baseline model.
+The coefficient of determination increased slightly from .371 in the baseline model to .375 in the final model. All p-values and confidence intervals for the intercept and coefficients were valid except for the `Floor-Wall` and `SqFtEnclosedPorch` categories. The Jarque_Bera p-value was small and indicated that heteroscadasticity was present in the residuals, but the residuals looked much better in the final model than in the baseline model. While the condition number was large, the Variance Inflation Factor values for the features show no multicollinearity. The final model was an improvement over the baseline model.
 
-The modeling process has uncovered a few overall trends in the data that were used a basis for testing various client recommendations. All of the models have shown a positive correlation between the `SalePrice` target and `SqFtTotalLiving` predictor. The models have also shown that all other heating types have improved the `SalePrice` target relative to ElecBB heat. Lastly, the models have also shown that the `SqFtOpenPorch`, `SqFtEnclosedPorch`, and `SqFtFinBasement` features are all positively correlated with the target. Focusing on the heating system, porches, and basements makes sense for the project, because these are all features that can be changed or upgraded to increase the sale price of homes.
+The modeling process uncovered a few overall trends in the data that were used a basis for testing various client recommendations. All of the models have shown a positive correlation between the `SalePrice` target and `SqFtTotalLiving` predictor. The models have also shown that all other heating types have improved the `SalePrice` target relative to ElecBB heat. Lastly, the models have also shown that the `SqFtOpenPorch`, `SqFtEnclosedPorch`, and `SqFtFinBasement` features are all positively correlated with the target. Focusing on the heating system, porches, and basements makes sense for the project, because these are all features that can be changed or upgraded to increase the sale price of homes.
 
 ## Conclusion
 
 # Recommendations for Home Improvements
 
-Given the information gleaned from the modeling process, in conjunction with statistical testing methods, three home improvement projects were found to correlate to higher home prices:
-* Convert enclosed porches to open porches, and do not enclose any currently open porches.
+Given the information gleaned from the modeling process, in conjunction with statistical testing methods, the following three home improvement projects were found to correlate to higher home prices:
+* Convert enclosed porches to open porches.
 * Upgrade Electric Baseboard & Floor-Wall heating systems to alternate heating types.
 * Upgrade basements up to a finished quality level of at least average.
 
@@ -112,11 +112,11 @@ Given the information gleaned from the modeling process, in conjunction with sta
 
 ## Recommendations Next Steps
 
-* Look into the set of mixed porches homes to see if the recommendation holds in those cases.
+* Look into the small set of mixed porches homes to see they can be incorporated into the recommendations.
 * More exploration into the alternate heating systems to analyze the upgrade cost vs effect on sale price of homes between the different types of alternate heating systems.
 * Quanitify the characteristics that demarcate the various quality levels for finished basements.
 
 ## Modeling Next Steps
 * More work on the filtered cluster of homes. Hopefully, some clarity can be gain on how they effect the model and steps can be taken to include them in the model, or quantify the effect of leaving them out. 
 * The final model is missing the `Forced Air` heating type. Moving forward, a next step in the process is to find a way to add it back in to the model without breaking the independence assuption of linear regression.
-* Adding more features to help improve the coefficient determination.
+* Adding more features to the model to help improve the coefficient determination.
