@@ -42,7 +42,7 @@ A client in King County, WA wants to advise homeowners on home improvement proje
 
 Analysis was based on the King County House Sales dataset from the King County Department of Assessments. The data was presented as three raw csv files of property data and a fourth with information about the various administrative codes used in the other three. The property data was joined into a data frame, and an initial modeling data set was formed that contained 16,323 rows.
 
-The continuous features were grouped together and a correlation matrix and heatmap plot were generated to find the features most correlated to the `SalePrice` target.
+The continuous features were grouped together, and a correlation matrix and heatmap plot were generated to find the features most correlated with the `SalePrice` target.
 
 ![graph1](reports/figures/heatmap.png)
 
@@ -79,12 +79,31 @@ A baseline model was established using simple linear regression with `SalePrice`
 
 The final model is based on the following predictors:
 #### Continuous Area Features:
-SqFtTotLiving_sqrt, SqFtDeck, SqFtEnclosedPorch, SqFtOpenPorch
+$ x_1 = SqFtTotLiving\_sqrt\\x_2 = SqFtDeck\\x_7 = SqFtEnclosedPorch\\x_9 =SqFtOpenPorch
+$
 
 #### Categorical Heating System Features:
-Radiant, Hot Water, Gravity, Heat Pump, Floor Wall.
+$x_3 = Radiant\\x_4 = Hot Water\\x_5 = Gravity\\x_6 = Heat Pump\\x_8 = Floor Wall
+$
+#### Coefficients
+```
+Intercept             -57462.573818
+SqFtTotLiving_sqrt     14623.636562
+SqFtDeck                  71.739906
+Radiant               133542.115362
+Hot_Water             100626.054299
+Gravity               204966.504146
+Heat_Pump              28044.528588
+SqFtOpenPorch             62.870475
+Floor_Wall             13154.769756
+SqFtEnclosedPorch         57.090414
+```
+#### Formula
 
-The Electric Baseboard heat system feature was dropped during the encoding process and incoporated into the intercept term of the model.
+$$ SalePrice = -57462.57 + 14623.64x_1 + 71.74x_2 + 133542.12x_3 + 100626.05x_4 + 204966.50x_5 + 28044.53x_6 + 62.87x_7 + 13154.77x_8 + 57.09x_9 $$
+
+#### Interpreting the Results
+The Electric Baseboard heat system feature was dropped during the encoding process and incoporated into the intercept term of the model. Since the intercept is smaller than all of the other heating system coefficients, homes with any other type of heating system will have higher sale prices (determined by the various heat type coefficients) relative to homes with Electric Baseboard heating when holding all other features constant. Also, when holding all other features constant, the coefficient for `SqFtTotLiving_sqrt` indicates that every one foot increase in living space will result in a \$14,623 increase in `SalePrice`. Further, a one square-foot increase in each of the other continuous SqFt features will slightly increase (by the various coefficients) `SalePrice` when holding all other features constant.
 
 ## Evaluation
 
