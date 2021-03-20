@@ -79,12 +79,28 @@ A baseline model was established using simple linear regression with `SalePrice`
 
 The final model is based on the following predictors:
 #### Continuous Area Features:
-$ x_1 = SqFtTotLiving\_sqrt\\x_2 = SqFtDeck\\x_7 = SqFtEnclosedPorch\\x_9 =SqFtOpenPorch
-$
+```
+x1 = SqFtTotLiving_sqrt
+
+x2 = SqFtDeck
+
+x7 = SqFtEnclosedPorch
+
+x9 = SqFtOpenPorch
+```
 
 #### Categorical Heating System Features:
-$x_3 = Radiant\\x_4 = Hot Water\\x_5 = Gravity\\x_6 = Heat Pump\\x_8 = Floor Wall
-$
+```
+x3 = Radiant
+
+x4 = Hot Water
+
+x5 = Gravity
+
+x6 = Heat Pump
+
+x8 = Floor Wall
+```
 #### Coefficients
 ```
 Intercept             -57462.573818
@@ -100,7 +116,7 @@ SqFtEnclosedPorch         57.090414
 ```
 #### Formula
 
-$$ SalePrice = -57462.57 + 14623.64x_1 + 71.74x_2 + 133542.12x_3 + 100626.05x_4 + 204966.50x_5 + 28044.53x_6 + 62.87x_7 + 13154.77x_8 + 57.09x_9 $$
+``` SalePrice = -57462 + 14623.64x1 + 71.74x2 + 133542.12x3 + 100626.05x4 + 204966.50x5 + 28044.53x6 + 62.87x7 + 13154.77x8 + 57.09x9 ```
 
 #### Interpreting the Results
 The Electric Baseboard heat system feature was dropped during the encoding process and incoporated into the intercept term of the model. Since the intercept is smaller than all of the other heating system coefficients, homes with any other type of heating system will have higher sale prices (determined by the various heat type coefficients) relative to homes with Electric Baseboard heating when holding all other features constant. Also, when holding all other features constant, the coefficient for `SqFtTotLiving_sqrt` indicates that every one foot increase in living space will result in a \$14,623 increase in `SalePrice`. Further, a one square-foot increase in each of the other continuous SqFt features will slightly increase (by the various coefficients) `SalePrice` when holding all other features constant.
